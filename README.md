@@ -18,17 +18,17 @@
 * The content of the future object is constrained to be single assignment (similar to a final variable in Java), and cannot be modified after the future task has returned.
 * We have to extend RecursiveTask to get *future*. Here too we need to implement compute() method with non-void return type. Here when we call fork(), we are implicitly calling *future* and call of join() is like calling *future* get(). This join() has return value. This is all because RecursiveTask implements *future* interface.
 * *Memoization*: Store futures in data structures for later use. So that when we do lookup get() operation on future is called.
-* *Java Streams*: An aggregate data query or data transformation can be specified by building a stream pipeline consisting of a source (typically by invoking the .stream() method on a data collection , a sequence of intermediate operations such as map() and filter(), and an optional terminal operation such as forEach() or average().
+* *Java Streams*: An aggregate data query or data transformation can be specified by building a stream pipeline consisting of a source (typically by invoking the .stream() method on a data collection , a sequence of intermediate operations such as map() and filter(), and an optional terminal operation such as forEach() or average(). <br/>
 		Example: ```
 				students.stream()
 		    			.filter(s -> s.getStatus() == Student.ACTIVE)
 		    			.map(a -> a.getAge())
 		    			.average();
-    			```
+    			```<br/>
     	We can make the above code parallel by replacing ``` students.stream() ``` with ``` students.parallelStream() ``` or ``` Stream.of(students).parallel() ```
-* *Determinism* : 
-	*Functional Determinism*: Same input -> same output all the time
-	*Structural Determinism*: Same input -> same computational graph
-	data race freedom mean we have both functional determinism and structural determinism
+* *Determinism* : <br/>
+	*Functional Determinism*: Same input -> same output all the time<br/>
+	*Structural Determinism*: Same input -> same computational graph<br/>
+	data race freedom mean we have both functional determinism and structural determinism<br/>
 	*Benign nondeterminism*: cases where parallel programs produce different output each time we run. These different outputs are acceptable.
 * *Data race*: happen when read-write or write-write situations. We can use *future* to avoid data race.
