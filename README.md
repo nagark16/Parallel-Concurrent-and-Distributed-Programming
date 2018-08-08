@@ -26,9 +26,11 @@
 		    			.average();
     			```<br/>
     	We can make the above code parallel by replacing ``` students.stream() ``` with ``` students.parallelStream() ``` or ``` Stream.of(students).parallel() ```
-* *Determinism* : <br/>
-	*Functional Determinism*: Same input -> same output all the time<br/>
-	*Structural Determinism*: Same input -> same computational graph<br/>
-	data race freedom mean we have both functional determinism and structural determinism<br/>
-	*Benign nondeterminism*: cases where parallel programs produce different output each time we run. These different outputs are acceptable.
+* *Determinism* : 
+	* *Functional Determinism*: Same input -> same output all the time
+	* *Structural Determinism*: Same input -> same computational graph
+	* *Benign nondeterminism*: cases where parallel programs produce different output each time we run. These different outputs are acceptable.
+	
+	data race freedom mean we have both functional determinism and structural determinism
+	
 * *Data race*: happen when read-write or write-write situations. We can use *future* to avoid data race.
