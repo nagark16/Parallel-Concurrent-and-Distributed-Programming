@@ -12,6 +12,7 @@
     ForkJoinPool.commonPool().invoke(t);
    ```
 * We have to extend RecursiveAction for Task parallelism and implement compute() method for central logic.
+
 ### Functional Parallelism
 * We convert functional program to parallel program using *futures*
 * Future tasks are tasks with return values, and a future object (also called promise object) is a “handle” for accessing a task’s return value.
@@ -34,3 +35,22 @@
 	data race freedom mean we have both functional determinism and structural determinism
 	
 * *Data race*: happen when read-write or write-write situations. We can use *future* to avoid data race.
+
+### Loop Parallelism
+* The most general way is to have each iteration of a parallel loop as an async task, with a finish construct encompassing all iterations
+  ```
+	finish{
+		for(p = head; p != null; p=p.next)
+			async compute(p);
+	}
+  ```
+* *FORALL* - to run all iterations in parallel
+	```
+		forall (i : [0:n-1])
+			a[i] = b[i] + c[i]
+	```
+* ``` IntStream.rangeClosed(0,N-1).parallel().foreach( I -> A[I] = B[I] + C[I]) ``` - same as above but elegant code
+* ``` A = IntStream.rangeClosed(0,N-1).parallel().toArray( I -> B[I] + C[I]) ``` - to return an array(not good when we have multiple arrays to return)
+* forall - output is non-deterministic, by default. We can make it deterministic by using *barrier* construct.
+* *iteration grouping or loop chucking* is the way to reduce number of tasks getting generated in loops. The group number better be closer to number of cores available.
+* 2 well know approaches for grouping: block and cyclic. The former approach (block) maps consecutive iterations to the same group, whereas the latter approach (cyclic) maps iterations in the same congruence class (mod ng) to the same group.
