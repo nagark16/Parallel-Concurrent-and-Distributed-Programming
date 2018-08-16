@@ -52,5 +52,8 @@
 * ``` IntStream.rangeClosed(0,N-1).parallel().foreach( I -> A[I] = B[I] + C[I]) ``` - same as above but elegant code
 * ``` A = IntStream.rangeClosed(0,N-1).parallel().toArray( I -> B[I] + C[I]) ``` - to return an array(not good when we have multiple arrays to return)
 * forall - output is non-deterministic, by default. We can make it deterministic by using *barrier* construct.
+* *Matrix multiplication*
+	* in simple version, we can't make innermost loop parallel because of data race
+	* in sophisticated code, we can make innermost loop parallel by having temporary variables for partial sums
 * *iteration grouping or loop chucking* is the way to reduce number of tasks getting generated in loops. The group number better be closer to number of cores available.
 * 2 well know approaches for grouping: block and cyclic. The former approach (block) maps consecutive iterations to the same group, whereas the latter approach (cyclic) maps iterations in the same congruence class (mod ng) to the same group.
